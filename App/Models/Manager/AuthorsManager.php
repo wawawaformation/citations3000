@@ -6,6 +6,7 @@
  namespace App\Models\Manager;
  use \PDO;
  use \PDOException;
+ use \App\Core\Database\Db;
 
  /**
   * Gère les tuples dans la tables authors (CRUD)
@@ -17,9 +18,9 @@
     /**
      * Instancie la classe PDO
      */
-    public function __construct()
+    public function __construct(PDO $db)
     {
-        $this->pdo = new PDO('mysql:host=localhost;dbname=quotes', 'root', '');
+        $this->pdo = $db;
     }
 
     function findAll()
