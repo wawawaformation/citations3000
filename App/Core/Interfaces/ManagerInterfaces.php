@@ -3,41 +3,41 @@
 namespace App\Core\Interfaces;
 
 Interface ManagerInterfaces
-{
+{   
     /**
-     * Return la liste des tuples dans une table
-     * @return array
+     * liste l'ensemble des tuples d'une table
      */
     public function findAll():array;
 
     /**
-     * Return un tuple
-     * @param int $id d'intifiant du tuple
+     * retourne un tuple identifié par son id
+     * @param int $id identifiant du tuple
      * @return array
      */
-    public function findOne(int $id):array;
+    public function findOne(int $id): array;
+
 
     /**
      * Supprime un tuple
-     * @param int $id identifiant du tuple à supprimer
+     * @param int $id identitifiant du tuple à supprimer
      * @return bool
      */
     public function delete(int $id): bool;
-
-
+    
     /**
-     * Ajoute un tuple
-     * @param array $data les champs renseignés du tuple
-     * @return int l'identifiant du tuple
+     * Ajoute un tuple à la table
+     * @param array $data les données du tuple à ajouter
+     * @return int
      */
     public function add(array $data): int;
 
 
     /**
      * Modifie un tuple
-     * @param array $data les propriétés à modifier
-     * @param int $id l'identifiant du tuple
-     * @return array
+     * @param array $data les données à modifier
+     * @param int $id l'identifiant du tuple à modifier
+     * @return array tuple modifié
      */
-    public function update(array $data, int $id):array;
+    public function update(array $data, int $id): array;
+   
 }

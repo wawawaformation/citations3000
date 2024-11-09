@@ -24,68 +24,66 @@
         $this->pdo = $db;
     }
 
-    public function findAll():array
+    public function findAll(): array
     {
-        $sql = 'SELECT * FROM quotes';
-        $statement = $this->pdo->query($sql);
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        $sql = 'SELECT * FROM authors';
+        $q = $this->pdo->query($sql);
+        return $q->fetchAll();
     }
 
     public function findOne(int $id): array
     {
-        $sql = 'SELECT * FROM quotes WHERE id = ?';
+        $sql = 'SELECT * FROM authors WHERE id = ?';
         $q = $this->pdo->prepare($sql);
         $q->execute([$id]);
         return $q->fetch();
     }
 
-    public function delete(int $id) : bool
+    public function delete(int $id): bool
     {
-        $sql = 'DELETE FROM quotes WHERE id=?';
+        $sql = 'DELETE FROM authors WHERE id= ?';
         $q = $this->pdo->prepare($sql);
         return $q->execute([$id]);
     }
 
     public function add(array $data): int
     {
-        //INSERT INTO quotes (champs) VALUES (?)
-
         $champs = [];
-        $interrogations = [];
         $valeurs = [];
-
-        foreach($data as $key=>$value){
-            $champs[] = $key;
+        $interrogations = [];
+        foreach($data as $key=>$value)
+        {
+            $champs[]=$key;
             $interrogations[] = '?';
             $valeurs[] = $value;
         }
 
-        $sql = 'INSERT INTO quotes(' 
-            . implode(', ', $champs) 
-            . ') VALUES ('
-            . implode(', ', $interrogations);
+        $sql = 'INSERT INTO authors('
+            .implode(', ', $champs)
+            .') VALUES ('
+            .implode(', ', $interrogations);
 
         $q = $this->pdo->prepare($sql);
         $q->execute($valeurs);
-        return $this->pdo->lastInsertId();
 
-      }
+        return $this->pdo->lastInsertId();
+    }
+
 
     public function update(array $data, int $id): array
     {
-        //UPDATE quotes SET
-        // $champs = ?, $cha
-        $champs = [];
+        //UPDATE authors set champ=?, champ=?
+        $sets = [];
         $valeurs = [];
-        foreach($data as $key=>$value){
-            $champs[] = $key . ' = ?';
+        foreach($data as $key=>$value)
+        {
+            $sets[] = $key . ' = ?';
             $valeurs[] = $value;
         }
-
         $valeurs[] = $id;
 
-        $sql = 'UPDATE quotes SET '
-            .implode(', ', $champs)
+        $sql = 'UPDATE authors ' 
+            . implode(', ', $sets)
             . ' WHERE id= ?';
 
         $q = $this->pdo->prepare($sql);
@@ -93,6 +91,8 @@
 
         return $this->findOne($id);
     }
+
+
 
   
  }
