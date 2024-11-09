@@ -31,7 +31,7 @@
         return $q->fetchAll();
     }
 
-    public function findOne(int $id): array
+    public function findOne(int $id): array | false
     {
         $sql = 'SELECT * FROM authors WHERE id = ?';
         $q = $this->pdo->prepare($sql);
@@ -41,6 +41,13 @@
 
     public function delete(int $id): bool
     {
+        $sql = 'SELECT COUNT(id) FROM authors WHERE id= ?';
+        $q = $this->pdo->prepare($sql);
+        $q->execute([$id]);
+        if(! $q->fetchColumn()){
+            return false;
+        }
+
         $sql = 'DELETE FROM authors WHERE id= ?';
         $q = $this->pdo->prepare($sql);
         return $q->execute([$id]);
@@ -61,7 +68,10 @@
         $sql = 'INSERT INTO authors('
             .implode(', ', $champs)
             .') VALUES ('
-            .implode(', ', $interrogations);
+            .implode(', ', $interrogations)
+            .')';
+        
+      
 
         $q = $this->pdo->prepare($sql);
         $q->execute($valeurs);
@@ -82,10 +92,11 @@
         }
         $valeurs[] = $id;
 
-        $sql = 'UPDATE authors ' 
+        $sql = 'UPDATE authors SET ' 
             . implode(', ', $sets)
             . ' WHERE id= ?';
 
+        
         $q = $this->pdo->prepare($sql);
         $q->execute($valeurs);
 

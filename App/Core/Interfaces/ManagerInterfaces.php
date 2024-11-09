@@ -14,7 +14,7 @@ Interface ManagerInterfaces
      * @param int $id identifiant du tuple
      * @return array
      */
-    public function findOne(int $id): array;
+    public function findOne(int $id): array | false;
 
 
     /**

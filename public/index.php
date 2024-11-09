@@ -12,4 +12,11 @@ define('ROOT', dirname(__DIR__));
 require_once ROOT . '/vendor/autoload.php';
 
 $manager = new AuthorsManager(Db::getInstance());
-dd($manager->findAll());
+
+
+
+
+
+dump($manager->update(['biography'=>'c un gars merveilleus'], 12));
+
+
