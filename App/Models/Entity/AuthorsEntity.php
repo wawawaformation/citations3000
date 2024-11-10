@@ -4,13 +4,9 @@ namespace App\Models\Entity;
 /**
  * Représente la table authors
  */
-class AuthorsEntity
+final class AuthorsEntity extends Entity
 {
-    /**
-     * identifiant du tuple
-     * @var int
-     */
-    private readonly int $id;
+    
 
     /**
      * Nom de l'auteur
@@ -48,43 +44,9 @@ class AuthorsEntity
         $this->hydrate($data);
     }
 
-    public function hydrate(array $data):self
-    {
-        foreach($data as $key=>$value){
-            $method = 'set' . ucfirst($key);
-            if(method_exists(__CLASS__, $method)){
-                $this->$method($value);
-            }else{
-                throw new \Exception('la propriété ' . $key . ' n\'existe pas');
-            }
-        }
-
-        return $this;
-    }
+    
 
 
-
-	/**
-	 * identifiant du tuple
-	 * @return int
-	 */
-	public function getId(): int {
-		return $this->id;
-	}
-	
-	/**
-	 * identifiant du tuple
-	 * @param int $id identifiant du tuple
-	 * @return self
-	 */
-	public function setId(int $id): self 
-    {
-        if($id <= 0 ){
-            throw new \InvalidArgumentException('id doit être strictement positif');
-        }
-		$this->id = $id;
-		return $this;
-	}
 
 	/**
 	 * Nom de l'auteur
