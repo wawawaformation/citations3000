@@ -3,6 +3,7 @@
 namespace App\Models\Manager;
 
 use App\Core\Interfaces\ManagerInterfaces;
+use App\Models\Entity\Entity;
 use PDO;
 use PDOStatement;
 
@@ -12,7 +13,7 @@ use PDOStatement;
  * Classe abstraite pour gérer les opérations de base sur une table de base de données.
  * Implémente l'interface ManagerInterfaces.
  */
-abstract class Manager implements ManagerInterfaces
+abstract class Manager //implements ManagerInterfaces
 {
     /**
      * @var PDO Instance de PDO pour l'accès à la base de données.
@@ -23,6 +24,14 @@ abstract class Manager implements ManagerInterfaces
      * @var string Nom de la table cible dans la base de données.
      */
     protected string $table;
+
+
+    /**
+     * Classe qui nous servira à générer les entités
+     * @var string
+     */
+    protected string $entityClass;
+
 
     /**
      * Constructeur de la classe Manager.
@@ -38,6 +47,10 @@ abstract class Manager implements ManagerInterfaces
         $table = str_replace(__NAMESPACE__ . '\\', '', $table);
         $table = str_replace('Manager', '', $table);
         $this->table = strtolower($table);
+
+        $entityClass = get_called_class();
+        $this->entityClass = str_replace('Manager', 'Entity', $entityClass);
+
     }
 
     /**
@@ -61,26 +74,44 @@ abstract class Manager implements ManagerInterfaces
     /**
      * Récupère tous les enregistrements de la table.
      *
-     * @return array Liste des enregistrements.
+     * @return array Liste des enregistrements sous forme d'entités.
      */
-    public function findAll(): array
+
+    public function findAll()
     {
         $sql = 'SELECT * FROM ' . $this->table;
         $q = $this->statement($sql);
-        return $q->fetchAll();
+
+        $list = [];
+        while($data = $q->fetch()){
+           if(class_exists($this->entityClass)){
+                $list[] = new $this->entityClass($data);
+           }else{
+                throw new \Exception('L\'entité n\'existe pas');
+           }
+        }
+        
+        return $list;
     }
+
 
     /**
      * Récupère un enregistrement unique par son identifiant.
      *
      * @param int $id Identifiant de l'enregistrement.
-     * @return array|false L'enregistrement ou false s'il n'existe pas.
+     * @return Entity|false L'enregistrement ou false s'il n'existe pas.
      */
-    public function findOne(int $id): array|false
+    public function findOne(int $id): Entity|false
     {
+        $sql = 'SELECT COUNT(id) FROM ' .$this->table . ' WHERE id=?';
+        $q=$this->statement($sql, [$id]);
+        if($q->fetchColumn() != 1){
+            return false;
+        }
+
         $sql = 'SELECT * FROM ' . $this->table . ' WHERE id=?';
         $q = $this->statement($sql, [$id]);
-        return $q->fetch();
+        return new $this->entityClass($q->fetch());
     }
 
     /**
@@ -111,6 +142,8 @@ abstract class Manager implements ManagerInterfaces
         return $this->pdo->lastInsertId();
     }
 
+
+
     /**
      * Supprime un enregistrement de la table par son identifiant.
      *
@@ -130,6 +163,7 @@ abstract class Manager implements ManagerInterfaces
         return $q->execute([$id]);
     }
 
+
     /**
      * Met à jour un enregistrement de la table.
      *
@@ -137,6 +171,7 @@ abstract class Manager implements ManagerInterfaces
      * @param int $id Identifiant de l'enregistrement à mettre à jour.
      * @return array Les données de l'enregistrement mis à jour.
      */
+    /*
     public function update(array $data, int $id): array
     {
         $sets = [];
@@ -155,4 +190,5 @@ abstract class Manager implements ManagerInterfaces
 
         return $this->findOne($id);
     }
+        */
 }

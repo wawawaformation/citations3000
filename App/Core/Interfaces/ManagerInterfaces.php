@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Core\Interfaces;
+use App\Models\Entity\Entity;
 
 
 
@@ -21,7 +22,7 @@ Interface ManagerInterfaces
      * @param int $id identifiant du tuple
      * @return array
      */
-    public function findOne(int $id): array | false;
+    public function findOne(int $id): Entity | false;
 
 
     /**

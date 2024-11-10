@@ -138,9 +138,11 @@ final class AuthorsEntity extends Entity
 	 * @return self
 	 */
 	public function setSrc(?string $src): self {
+        /*
         if(strlen($src > 256)){
             throw new \InvalidArgumentException('Le src ne peut pas dépasser 256 caractères');
         }
+            */
 		$this->src = $src;
 		return $this;
 	}
