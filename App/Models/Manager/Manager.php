@@ -26,6 +26,7 @@ abstract class Manager implements ManagerInterfaces
 
     /**
      * Constructeur de la classe Manager.
+     * Récupère le nom de la table dynamiquement
      *
      * @param PDO $pdo Instance PDO pour la connexion à la base de données.
      */
