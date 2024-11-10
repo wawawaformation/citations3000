@@ -2,6 +2,13 @@
 
 namespace App\Core\Interfaces;
 
+
+
+/**
+ * Interface ManagerInterfaces
+ *
+ * Interface définissant les méthodes de base pour la gestion des enregistrements d'une table.
+ */
 Interface ManagerInterfaces
 {   
     /**
