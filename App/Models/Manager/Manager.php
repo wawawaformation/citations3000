@@ -13,7 +13,7 @@ use PDOStatement;
  * Classe abstraite pour gérer les opérations de base sur une table de base de données.
  * Implémente l'interface ManagerInterfaces.
  */
-abstract class Manager //implements ManagerInterfaces
+abstract class Manager implements ManagerInterfaces
 {
     /**
      * @var PDO Instance de PDO pour l'accès à la base de données.
@@ -77,7 +77,7 @@ abstract class Manager //implements ManagerInterfaces
      * @return array Liste des enregistrements sous forme d'entités.
      */
 
-    public function findAll()
+    public function findAll():array
     {
         $sql = 'SELECT * FROM ' . $this->table;
         $q = $this->statement($sql);
@@ -171,8 +171,8 @@ abstract class Manager //implements ManagerInterfaces
      * @param int $id Identifiant de l'enregistrement à mettre à jour.
      * @return array Les données de l'enregistrement mis à jour.
      */
-    /*
-    public function update(array $data, int $id): array
+    
+    public function update(array $data, int $id): Entity
     {
         $sets = [];
         $valeurs = [];
@@ -190,5 +190,5 @@ abstract class Manager //implements ManagerInterfaces
 
         return $this->findOne($id);
     }
-        */
+    
 }

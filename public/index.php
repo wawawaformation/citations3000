@@ -13,5 +13,8 @@ define('ROOT', dirname(__DIR__));
 require_once ROOT . '/vendor/autoload.php';
 
 $authorsManager = new AuthorsManager(Db::getInstance());
-dump($authorsManager->findOne(2));
+$authorsManager->update(['biography'=>null], 13);
+
+
+dump($authorsManager->findAll());
 

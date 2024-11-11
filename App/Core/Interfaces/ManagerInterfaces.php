@@ -46,6 +46,6 @@ Interface ManagerInterfaces
      * @param int $id l'identifiant du tuple à modifier
      * @return array tuple modifié
      */
-    public function update(array $data, int $id): array;
+    public function update(array $data, int $id): Entity;
    
 }

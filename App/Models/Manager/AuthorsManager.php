@@ -4,7 +4,9 @@
  */
 
  namespace App\Models\Manager;
- use \PDO;
+
+use App\Models\Entity\AuthorsEntity;
+use \PDO;
  use \PDOException;
 
 
@@ -13,5 +15,5 @@
   */
  class AuthorsManager extends Manager
  {
-   
+    
  }
