@@ -1,5 +1,7 @@
 <?php
 
+use App\Controllers\AuthorsController;
+
 /**
  * Listes de routes
  */
@@ -11,7 +13,9 @@
 
  //Authors
  $routeur->map('GET', '/authors', function(){
-    echo 'list';
+   (new AuthorsController())->all();
+
+    
  }, 'authors_list');
 
  $routeur->map('GET', '/authors/[i:id]', function($id){
@@ -23,7 +27,7 @@
  }, 'authors_create');
 
  $routeur->map('GET', '/authors/delete/[i:id]', function($id){
-    echo 'delete';
+   (new AuthorsController())->delete($id);
  }, 'authors_delete');
 
  $routeur->map('GET|POST', '/authors/update/[i:id]', function($id){
